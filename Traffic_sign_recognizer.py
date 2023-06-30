@@ -53,7 +53,7 @@ classes = { 1:'Speed limit (20km/h)',
             43:'End no passing veh > 3.5 tons' }
 #initialise GUI
 top=tk.Tk()
-top.geometry('800x600')
+top.geometry('800x800')
 top.title('Traffic sign classification')
 top.configure(background='#CDCDCD')
 label=Label(top,background='#CDCDCD', font=('arial',15,'bold'))
@@ -63,8 +63,10 @@ def classify(file_path):
     image = cv2.imread(file_path)
     image = cv2.resize(image,(30,30),interpolation=cv2.INTER_NEAREST)
     image = numpy.expand_dims(image, axis=0)
-    pred = model.predict_classes([image])[0]
-    sign = classes[pred+1]
+    pred = model.predict([image])
+    x=numpy.argmax(pred)
+    print(len(pred))
+    sign = classes[x+1]
     print(sign)
     label.configure(foreground='#011638', text=sign) 
 def show_classify_button(file_path):
